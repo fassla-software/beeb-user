@@ -1,0 +1,2 @@
+/home/rami/StudioProjects/makhsos-app/android/app/.cxx/Debug/5w5h4x6g/x86/CMakeFiles/rebuild_cache.dir
+/home/rami/StudioProjects/makhsos-app/android/app/.cxx/Debug/5w5h4x6g/x86/CMakeFiles/edit_cache.dir

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "321170594703",
+    "project_id": "beeb-b7773",
+    "storage_bucket": "beeb-b7773.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321170594703:android:854d0317debcaebcc149fa",
+        "android_client_info": {
+          "package_name": "com.beeb.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYHukudTxqpo-kFUt0SFPIzsizTgpVJIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321170594703:android:3999422d1116559fc149fa",
+        "android_client_info": {
+          "package_name": "com.makhsos_app.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYHukudTxqpo-kFUt0SFPIzsizTgpVJIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

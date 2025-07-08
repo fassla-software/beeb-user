@@ -1,0 +1,2 @@
+/home/rami/StudioProjects/makhsos-app/android/app/.cxx/RelWithDebInfo/3s492z4y/x86_64/CMakeFiles/rebuild_cache.dir
+/home/rami/StudioProjects/makhsos-app/android/app/.cxx/RelWithDebInfo/3s492z4y/x86_64/CMakeFiles/edit_cache.dir

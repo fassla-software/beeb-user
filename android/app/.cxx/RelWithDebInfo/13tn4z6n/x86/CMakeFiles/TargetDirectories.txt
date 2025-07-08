@@ -1,0 +1,2 @@
+E:/Fassla/makhsos-app/android/app/.cxx/RelWithDebInfo/13tn4z6n/x86/CMakeFiles/edit_cache.dir
+E:/Fassla/makhsos-app/android/app/.cxx/RelWithDebInfo/13tn4z6n/x86/CMakeFiles/rebuild_cache.dir
