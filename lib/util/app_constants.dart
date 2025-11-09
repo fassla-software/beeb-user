@@ -12,7 +12,7 @@ class AppConstants {
   static const String fontFamily = 'Roboto';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://makhsos.com';
+  static const String webHostedUrl = 'https://app-beeb.com';
   static const bool useReactWebsite = false;
 
   static const String baseUrl = 'https://app-beeb.com';
