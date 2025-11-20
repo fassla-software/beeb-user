@@ -277,44 +277,109 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                     ],
                                                   ),
                                                   child: FloatingActionButton(
-                                                    backgroundColor:
-                                                        Theme.of(context)
-                                                            .primaryColor,
-                                                    onPressed: () {
-                                                      if (isParcel) {
-                                                        showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          builder: (con) =>
-                                                              ParcelBottomSheetWidget(
-                                                                  parcelCategoryList:
-                                                                      Get.find<
-                                                                              ParcelController>()
-                                                                          .parcelCategoryList),
-                                                        );
-                                                      } else {
-                                                        Get.toNamed(RouteHelper
-                                                            .getCartRoute());
-                                                      }
-                                                    },
-                                                    elevation: 0,
-                                                    child: isParcel
-                                                        ? Icon(
-                                                            CupertinoIcons.add,
-                                                            size: 34,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .cardColor)
-                                                        : CartWidget(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .cardColor,
-                                                            size: 22),
-                                                  ),
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .primaryColor
+                                                              .withOpacity(0.3),
+                                                      onPressed: () {
+                                                        // Find the "Order and Wish" module index
+                                                        int?
+                                                            orderWishModuleIndex;
+                                                        final moduleList = Get.find<
+                                                                SplashController>()
+                                                            .moduleList;
+                                                        if (moduleList !=
+                                                            null) {
+                                                          // Debug: Print all available modules
+                                                          print(
+                                                              'Available modules:');
+                                                          for (int i = 0;
+                                                              i <
+                                                                  moduleList
+                                                                      .length;
+                                                              i++) {
+                                                            print(
+                                                                'Module $i: ${moduleList[i].moduleName} (Type: ${moduleList[i].moduleType})');
+                                                          }
+
+                                                          for (int i = 0;
+                                                              i <
+                                                                  moduleList
+                                                                      .length;
+                                                              i++) {
+                                                            final moduleName =
+                                                                moduleList[i]
+                                                                        .moduleName
+                                                                        ?.toLowerCase() ??
+                                                                    '';
+                                                            final moduleType =
+                                                                moduleList[i]
+                                                                        .moduleType
+                                                                        ?.toLowerCase() ??
+                                                                    '';
+
+                                                            // Look for your specific module by type (parcel) or by name patterns
+                                                            // This handles both English and Arabic module names
+                                                            if (moduleType ==
+                                                                    'parcel' ||
+                                                                moduleName.contains(
+                                                                    'اطلب') || // Arabic "order"
+                                                                moduleName.contains(
+                                                                    'اتمني') || // Arabic "wish"
+                                                                (moduleName.contains(
+                                                                        'order') &&
+                                                                    moduleName
+                                                                        .contains(
+                                                                            'wish')) ||
+                                                                (moduleName.contains(
+                                                                        'order') &&
+                                                                    !moduleName
+                                                                        .contains(
+                                                                            'food') &&
+                                                                    !moduleName
+                                                                        .contains(
+                                                                            'grocery'))) {
+                                                              orderWishModuleIndex =
+                                                                  i;
+                                                              break;
+                                                            }
+                                                          }
+                                                        }
+
+                                                        if (orderWishModuleIndex !=
+                                                            null) {
+                                                          // First navigate to home page, then switch to the Order and Wish module
+                                                          _setPage(
+                                                              0); // Navigate to home page
+                                                          // Switch to the Order and Wish module
+                                                          Get.find<
+                                                                  SplashController>()
+                                                              .switchModule(
+                                                                  orderWishModuleIndex,
+                                                                  true);
+                                                        } else {
+                                                          // Fallback: show a message or navigate to a default screen
+                                                          Get.snackbar(
+                                                            'Module Not Found',
+                                                            'Order and Wish module not found',
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .BOTTOM,
+                                                          );
+                                                        }
+                                                      },
+                                                      elevation: 0,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                        child: Image.asset(
+                                                          'assets/image/logo.png',
+                                                          width: 34,
+                                                          height: 34,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      )),
                                                 ),
                                 ),
                                 ResponsiveHelper.isDesktop(context)

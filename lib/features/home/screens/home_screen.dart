@@ -444,6 +444,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: GetBuilder<NotificationController>(
                                           builder: (notificationController) {
                                         return Stack(children: [
+                                          Icon(CupertinoIcons.cart,
+                                              size: 25,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .color),
+                                          notificationController.hasNotification
+                                              ? Positioned(
+                                                  top: 0,
+                                                  right: 0,
+                                                  child: Container(
+                                                    height: 10,
+                                                    width: 10,
+                                                    decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .cardColor),
+                                                    ),
+                                                  ))
+                                              : const SizedBox(),
+                                        ]);
+                                      }),
+                                      onTap: () => Get.toNamed(
+                                          RouteHelper.getCartRoute()),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    InkWell(
+                                      child: GetBuilder<NotificationController>(
+                                          builder: (notificationController) {
+                                        return Stack(children: [
                                           Icon(CupertinoIcons.bell,
                                               size: 25,
                                               color: Theme.of(context)

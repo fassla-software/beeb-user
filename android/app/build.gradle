@@ -6,7 +6,10 @@ plugins {
     id "com.google.firebase.crashlytics"
 }
 
+<<<<<<< HEAD
 // --- Load local properties (Flutter version info) ---
+=======
+>>>>>>> ffe1df2 (before marsol update)
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -29,15 +32,34 @@ android {
     compileSdk 35
     ndkVersion flutter.ndkVersion
 
+<<<<<<< HEAD
+=======
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+>>>>>>> ffe1df2 (before marsol update)
     defaultConfig {
         applicationId "com.beeb.app"
+<<<<<<< HEAD
         minSdkVersion flutter.minSdkVersion
+=======
+         minSdkVersion 24
+>>>>>>> ffe1df2 (before marsol update)
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
-
     signingConfigs {
         release {
             // Only apply if key.properties exists
@@ -50,6 +72,7 @@ android {
         }
     }
 
+<<<<<<< HEAD
     buildTypes {
         release {
             shrinkResources false
@@ -59,6 +82,13 @@ android {
         }
         debug {
             signingConfig signingConfigs.release
+=======
+      buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+>>>>>>> ffe1df2 (before marsol update)
         }
     }
 
@@ -81,8 +111,16 @@ flutter {
     source '../..'
 }
 
+
 dependencies {
+<<<<<<< HEAD
     implementation "com.google.firebase:firebase-messaging:23.4.1"
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+=======
+    implementation "com.google.firebase:firebase-messaging:24.1.1"
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+>>>>>>> ffe1df2 (before marsol update)
 }

@@ -45,6 +45,12 @@ class ModuleView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     print(
                         "module names : ${splashController.moduleList![index].moduleName}");
+                    if (splashController.moduleList![index].moduleName ==
+                            'order and wish' ||
+                        splashController.moduleList![index].moduleName ==
+                            'اطلب واتمني') {
+                      return const SizedBox();
+                    }
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius:

@@ -22,7 +22,7 @@ ThemeData dark({Color color = const Color(0xFF54b46b)}) => ThemeData(
       floatingActionButtonTheme: FloatingActionButtonThemeData(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(500))),
-      bottomAppBarTheme: const BottomAppBarThemeData(
+      bottomAppBarTheme: const BottomAppBarTheme(
         surfaceTintColor: Colors.black,
         height: 60,
         padding: EdgeInsets.symmetric(vertical: 5),

@@ -5,6 +5,8 @@ import 'package:makhsos/util/styles.dart';
 import 'package:makhsos/common/widgets/cart_widget.dart';
 import 'package:makhsos/common/widgets/veg_filter_widget.dart';
 import 'package:makhsos/common/widgets/web_menu_bar.dart';
+import 'package:makhsos/features/notification/controllers/notification_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(String value)? onVegFilterTap;
   final String? type;
   final String? leadingIcon;
+  final bool showNotification;
   const CustomAppBar(
       {super.key,
       required this.title,
@@ -24,7 +27,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.showCart = false,
       this.leadingIcon,
       this.onVegFilterTap,
-      this.type});
+      this.type,
+      this.showNotification = false});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             surfaceTintColor: Theme.of(context).cardColor,
             shadowColor: Theme.of(context).disabledColor.withOpacity(0.5),
             elevation: 2,
-            actions: showCart || onVegFilterTap != null
+            actions: showCart || onVegFilterTap != null || showNotification
                 ? [
                     showCart
                         ? IconButton(
@@ -71,6 +75,41 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             type: type,
                             onSelected: onVegFilterTap,
                             fromAppBar: true,
+                          )
+                        : const SizedBox(),
+                    showNotification
+                        ? InkWell(
+                            child: GetBuilder<NotificationController>(
+                                builder: (notificationController) {
+                              return Stack(children: [
+                                Icon(CupertinoIcons.bell,
+                                    size: 25,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .color),
+                                notificationController.hasNotification
+                                    ? Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: Container(
+                                          height: 10,
+                                          width: 10,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 1,
+                                                color: Theme.of(context)
+                                                    .cardColor),
+                                          ),
+                                        ))
+                                    : const SizedBox(),
+                              ]);
+                            }),
+                            onTap: () =>
+                                Get.toNamed(RouteHelper.getNotificationRoute()),
                           )
                         : const SizedBox(),
                   ]

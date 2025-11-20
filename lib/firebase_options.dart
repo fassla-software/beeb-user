@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'beeb-b7773.firebasestorage.app',
     iosBundleId: 'com.beeb.app',
   );
+
 }

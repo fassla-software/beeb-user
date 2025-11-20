@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:makhsos/util/dimensions.dart';
 import 'package:makhsos/util/styles.dart';
+
+import '../../../util/images.dart';
 
 class PortionWidget extends StatelessWidget {
   final String icon;
@@ -28,7 +31,9 @@ class PortionWidget extends StatelessWidget {
             const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
         child: Column(children: [
           Row(children: [
-            Image.asset(icon, height: 16, width: 16),
+            icon != Images.notificationPlaceholder
+                ? Image.asset(icon, height: 16, width: 16)
+                : Icon(CupertinoIcons.bell, size: 16),
             const SizedBox(width: Dimensions.paddingSizeSmall),
             Expanded(
                 child: Text(title,

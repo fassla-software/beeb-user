@@ -130,6 +130,7 @@ class _WalletScreenState extends State<WalletScreen> {
         appBar: CustomAppBar(
             title: 'wallet'.tr,
             backButton: true,
+            showNotification: true,
             onBackPressed: () {
               if (widget.fromNotification) {
                 Get.offAllNamed(RouteHelper.getInitialRoute());

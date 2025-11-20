@@ -188,6 +188,10 @@ class _MenuScreenState extends State<MenuScreen> {
                           title: 'my_address'.tr,
                           route: RouteHelper.getAddressRoute()),
                       PortionWidget(
+                          icon: Images.notificationPlaceholder,
+                          title: 'notification'.tr,
+                          route: RouteHelper.getNotificationRoute()),
+                      PortionWidget(
                           icon: Images.languageIcon,
                           title: 'language'.tr,
                           hideDivider: true,

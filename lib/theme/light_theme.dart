@@ -21,7 +21,7 @@ ThemeData light({Color color = const Color(0xFFEB2034)}) => ThemeData(
       floatingActionButtonTheme: FloatingActionButtonThemeData(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(500))),
-      bottomAppBarTheme: const BottomAppBarThemeData(
+      bottomAppBarTheme: const BottomAppBarTheme(
         surfaceTintColor: Colors.white,
         height: 60,
         padding: EdgeInsets.symmetric(vertical: 5),

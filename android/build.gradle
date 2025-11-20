@@ -1,23 +1,16 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        // Apply consistent Android SDK versions
-        apply from: "all.gradle"
-    }
-}
-
 allprojects {
+<<<<<<< HEAD
 
 
         ext.kotlin_version = '2.1.0'
 
+=======
+>>>>>>> ffe1df2 (before marsol update)
     repositories {
         google()
         mavenCentral()
     }
+<<<<<<< HEAD
 
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
@@ -30,6 +23,8 @@ allprojects {
             }
         }
     }
+=======
+>>>>>>> ffe1df2 (before marsol update)
 }
 
 rootProject.buildDir = '../build'
