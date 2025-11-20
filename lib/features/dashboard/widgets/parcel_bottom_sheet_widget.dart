@@ -89,8 +89,8 @@ class ParcelBottomSheetWidget extends StatelessWidget {
                                       return CustomInkWell(
                                         onTap: () {
                                           Get.back();
-                                          Get.toNamed(RouteHelper
-                                              .getParcelLocationRoute(
+                                          Get.toNamed(
+                                              RouteHelper.getParcelUnifiedRoute(
                                                   parcelCategoryList![index]));
                                         },
                                         radius: Dimensions.radiusDefault,

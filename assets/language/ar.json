@@ -197,6 +197,7 @@
   "trip_route": "طريق الرحلة",
   "call": "يتصل",
   "order_details": "تفاصيل الطلب",
+  "write_order_details": "اكتب تفاصيل طلبك أدناه",
   "rate_and_review": "تقييم",
   "rate_the_item": "قيم العنصر",
   "rate_the_delivery_man": "قيم مندوب التوصيل",
@@ -1318,5 +1319,6 @@
   "password_reset_successfully": "تم إعادة تعيين كلمة المرور بنجاح",
   "enter_name": "أدخل الاسم",
   "timed_out_please_try_again_after_few_minutes": "انتهت المهلة. يرجى المحاولة مرة أخرى بعد بضع دقائق",
-  "from_you": "منك"
+  "from_you": "منك",
+  "order_and_wish": "اطلب واتمني"
 }

@@ -27,10 +27,34 @@ class NotificationHelper {
     var iOSInitialize = const DarwinInitializationSettings();
     var initializationsSettings =
         InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+
+    // Create notification channel with custom sound and design
+    AndroidNotificationChannel channel = AndroidNotificationChannel(
+      '6ammart',
+      AppConstants.appName,
+      description:
+          'BEEB Delivery notifications with roadrunner sound and custom design.',
+      importance: Importance.max,
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound('roadrunner'),
+      enableVibration: true,
+      vibrationPattern: Int64List.fromList([0, 250, 250, 250]),
+      enableLights: true,
+      ledColor: Color(0xFF2196F3),
+      showBadge: true,
+    );
+
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
         .requestNotificationsPermission();
+
+    // Create the notification channel
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .createNotificationChannel(channel);
+
     flutterLocalNotificationsPlugin.initialize(initializationsSettings,
         onDidReceiveNotificationResponse: (NotificationResponse load) async {
       try {
@@ -238,16 +262,32 @@ class NotificationHelper {
       String orderID,
       NotificationBodyModel? notificationBody,
       FlutterLocalNotificationsPlugin fln) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       '6ammart',
       AppConstants.appName,
       playSound: true,
       importance: Importance.max,
       priority: Priority.max,
-      sound: RawResourceAndroidNotificationSound('notification'),
+      sound: RawResourceAndroidNotificationSound('roadrunner'),
+      color: Color(0xFF2196F3), // Custom blue color
+      ledColor: Color(0xFF2196F3), // LED color
+      ledOnMs: 1000,
+      ledOffMs: 500,
+      enableVibration: true,
+      vibrationPattern: Int64List.fromList([0, 250, 250, 250]),
+      enableLights: true,
+      showWhen: true,
+      when: DateTime.now().millisecondsSinceEpoch,
+      usesChronometer: false,
+      timeoutAfter: 5000,
+      onlyAlertOnce: false,
+      channelShowBadge: true,
+      icon: 'notification_icon',
+      largeIcon: DrawableResourceAndroidBitmap('notification_icon'),
+      styleInformation: DefaultStyleInformation(true, true),
     );
-    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(0, title, body, platformChannelSpecifics,
         payload: notificationBody != null
@@ -266,6 +306,8 @@ class NotificationHelper {
       htmlFormatBigText: true,
       contentTitle: title,
       htmlFormatContentTitle: true,
+      summaryText: 'BEEB Delivery',
+      htmlFormatSummaryText: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -275,7 +317,36 @@ class NotificationHelper {
       styleInformation: bigTextStyleInformation,
       priority: Priority.max,
       playSound: true,
-      sound: const RawResourceAndroidNotificationSound('notification'),
+      sound: const RawResourceAndroidNotificationSound('roadrunner'),
+      color: Color(0xFF4CAF50), // Green color for success notifications
+      ledColor: Color(0xFF4CAF50),
+      ledOnMs: 1000,
+      ledOffMs: 500,
+      enableVibration: true,
+      vibrationPattern: Int64List.fromList([0, 250, 250, 250]),
+      enableLights: true,
+      showWhen: true,
+      when: DateTime.now().millisecondsSinceEpoch,
+      usesChronometer: false,
+      timeoutAfter: 10000,
+      onlyAlertOnce: false,
+      channelShowBadge: true,
+      icon: 'notification_icon',
+      largeIcon: DrawableResourceAndroidBitmap('notification_icon'),
+      actions: [
+        AndroidNotificationAction(
+          'view',
+          'View',
+          titleColor: Color(0xFF4CAF50),
+          showsUserInterface: true,
+        ),
+        AndroidNotificationAction(
+          'dismiss',
+          'Dismiss',
+          titleColor: Color(0xFFF44336),
+          cancelNotification: true,
+        ),
+      ],
     );
     NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -313,7 +384,35 @@ class NotificationHelper {
       playSound: true,
       styleInformation: bigPictureStyleInformation,
       importance: Importance.max,
-      sound: const RawResourceAndroidNotificationSound('notification'),
+      sound: const RawResourceAndroidNotificationSound('roadrunner'),
+      color: Color(0xFFFF9800), // Orange color for image notifications
+      ledColor: Color(0xFFFF9800),
+      ledOnMs: 1000,
+      ledOffMs: 500,
+      enableVibration: true,
+      vibrationPattern: Int64List.fromList([0, 250, 250, 250]),
+      enableLights: true,
+      showWhen: true,
+      when: DateTime.now().millisecondsSinceEpoch,
+      usesChronometer: false,
+      timeoutAfter: 15000,
+      onlyAlertOnce: false,
+      channelShowBadge: true,
+      icon: 'notification_icon',
+      actions: [
+        AndroidNotificationAction(
+          'view',
+          'View Details',
+          titleColor: Color(0xFFFF9800),
+          showsUserInterface: true,
+        ),
+        AndroidNotificationAction(
+          'dismiss',
+          'Dismiss',
+          titleColor: Color(0xFFF44336),
+          cancelNotification: true,
+        ),
+      ],
     );
     final NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -398,6 +497,26 @@ Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
   if (kDebugMode) {
     print("onBackground: ${message.data}");
   }
+
+  // Handle background notifications with custom sound
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  // Initialize the plugin for background notifications
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('notification_icon');
+  const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings();
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Show notification with custom sound
+  await NotificationHelper.showNotification(
+      message, flutterLocalNotificationsPlugin);
 }
 
 class PayloadModel {

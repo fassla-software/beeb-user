@@ -21,6 +21,8 @@ import 'package:makhsos/util/styles.dart';
 import 'package:makhsos/common/widgets/confirmation_dialog.dart';
 import 'package:makhsos/common/widgets/custom_image.dart';
 import 'package:makhsos/features/menu/widgets/portion_widget.dart';
+import 'package:makhsos/helper/notification_helper.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -30,6 +32,24 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  // Test notification function
+  Future<void> _testNotification() async {
+    try {
+      await NotificationHelper.showTextNotification(
+        'Test Notification',
+        'This is a test notification with roadrunner sound!',
+        'test_001',
+        null,
+        _flutterLocalNotificationsPlugin,
+      );
+    } catch (e) {
+      print('Error showing test notification: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,8 +214,14 @@ class _MenuScreenState extends State<MenuScreen> {
                       PortionWidget(
                           icon: Images.languageIcon,
                           title: 'language'.tr,
-                          hideDivider: true,
+                          hideDivider: false,
                           onTap: () => _manageLanguageFunctionality(),
+                          route: ''),
+                      PortionWidget(
+                          icon: Images.notificationPlaceholder,
+                          title: 'Test Notification Sound',
+                          hideDivider: true,
+                          onTap: () => _testNotification(),
                           route: ''),
                     ]),
                   )

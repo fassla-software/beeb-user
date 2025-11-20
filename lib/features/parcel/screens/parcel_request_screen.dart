@@ -36,7 +36,6 @@ import 'package:makhsos/features/checkout/widgets/payment_button.dart';
 import 'package:makhsos/features/checkout/widgets/tips_widget.dart';
 import 'package:makhsos/features/parcel/widgets/card_widget.dart';
 import 'package:makhsos/features/parcel/widgets/delivery_instruction_bottom_sheet_widget.dart';
-import 'package:makhsos/features/parcel/widgets/details_widget.dart';
 
 class ParcelRequestScreen extends StatefulWidget {
   final ParcelCategoryModel parcelCategory;
@@ -80,7 +79,8 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
     Get.find<ParcelController>().setPaymentIndex(-1, false);
     Get.find<ParcelController>()
         .getDistance(widget.pickedUpAddress, widget.destinationAddress);
-    Get.find<ParcelController>().setPayerIndex(0, false);
+    Get.find<ParcelController>()
+        .setPayerIndex(0, false); // Always set to sender (index 0)
     Get.find<ParcelController>().startLoader(false, canUpdate: false);
     for (ZoneData zData in widget.pickedUpAddress.zoneData!) {
       if (zData.id == AddressHelper.getUserAddressFromSharedPref()!.zoneId) {
@@ -217,21 +217,6 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                                   ),
                                   const SizedBox(
                                       height: Dimensions.paddingSizeSmall),
-                                  CardWidget(
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                        DetailsWidget(
-                                            title: 'sender_details'.tr,
-                                            address: widget.pickedUpAddress),
-                                        const SizedBox(
-                                            height:
-                                                Dimensions.paddingSizeLarge),
-                                        DetailsWidget(
-                                            title: 'receiver_details'.tr,
-                                            address: widget.destinationAddress),
-                                      ])),
                                   const SizedBox(
                                       height: Dimensions.paddingSizeSmall),
                                   CardWidget(
@@ -736,59 +721,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                                               1)
                                           ? Dimensions.paddingSizeExtraSmall
                                           : 0),
-                                  Text('charge_pay_by'.tr, style: robotoMedium),
-                                  const SizedBox(
-                                      height: Dimensions.paddingSizeExtraSmall),
-                                  Row(children: [
-                                    Expanded(
-                                        child: InkWell(
-                                      onTap: () => parcelController
-                                          .setPayerIndex(0, true),
-                                      child: Row(children: [
-                                        Radio<String>(
-                                          value: parcelController.payerTypes[0],
-                                          groupValue:
-                                              parcelController.payerTypes[
-                                                  parcelController.payerIndex],
-                                          activeColor:
-                                              Theme.of(context).primaryColor,
-                                          onChanged: (String? payerType) =>
-                                              parcelController.setPayerIndex(
-                                                  0, true),
-                                        ),
-                                        Text(parcelController.payerTypes[0].tr,
-                                            style: robotoRegular),
-                                      ]),
-                                    )),
-                                    _isCashOnDeliveryActive!
-                                        ? Expanded(
-                                            child: InkWell(
-                                            onTap: () => parcelController
-                                                .setPayerIndex(1, true),
-                                            child: Row(children: [
-                                              Radio<String>(
-                                                value: parcelController
-                                                    .payerTypes[1],
-                                                groupValue:
-                                                    parcelController.payerTypes[
-                                                        parcelController
-                                                            .payerIndex],
-                                                activeColor: Theme.of(context)
-                                                    .primaryColor,
-                                                onChanged:
-                                                    (String? payerType) =>
-                                                        parcelController
-                                                            .setPayerIndex(
-                                                                1, true),
-                                              ),
-                                              Text(
-                                                  parcelController
-                                                      .payerTypes[1].tr,
-                                                  style: robotoRegular),
-                                            ]),
-                                          ))
-                                        : const SizedBox(),
-                                  ]),
+                                  // Charge is always paid by sender - no UI needed
                                   const SizedBox(
                                       height: Dimensions.paddingSizeLarge),
                                   Row(children: [
@@ -822,7 +755,6 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                                                     .configModel!
                                                     .customerWalletStatus ==
                                                 1 &&
-                                            parcelController.payerIndex == 0 &&
                                             !isGuestLoggedIn)
                                         ? Expanded(
                                             child: PaymentButton(
@@ -842,8 +774,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                                   ]),
                                   const SizedBox(
                                       height: Dimensions.paddingSizeSmall),
-                                  (_isDigitalPaymentActive! &&
-                                          parcelController.payerIndex == 0)
+                                  (_isDigitalPaymentActive!)
                                       ? Column(children: [
                                           Row(children: [
                                             Text('pay_via_online'.tr,
@@ -971,8 +902,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                                               }),
                                         ])
                                       : const SizedBox(),
-                                  parcelController.offlineMethodList != null &&
-                                          parcelController.payerIndex == 0
+                                  parcelController.offlineMethodList != null
                                       ? OfflinePaymentButton(
                                           isSelected:
                                               parcelController.paymentIndex ==
@@ -1150,6 +1080,31 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                       _guestConfirmPasswordController.text)) {
                 showCustomSnackBar('confirm_password_does_not_matched'.tr);
               } else {
+                // Ensure receiver details are properly set with null safety
+                AddressModel receiverDetails = AddressModel(
+                  address: widget.destinationAddress.address ?? '',
+                  additionalAddress:
+                      widget.destinationAddress.additionalAddress ?? '',
+                  addressType: widget.destinationAddress.addressType ?? 'home',
+                  contactPersonName:
+                      widget.destinationAddress.contactPersonName ?? '',
+                  contactPersonNumber:
+                      widget.destinationAddress.contactPersonNumber ?? '',
+                  latitude:
+                      widget.destinationAddress.latitude?.toString() ?? '0.0',
+                  longitude:
+                      widget.destinationAddress.longitude?.toString() ?? '0.0',
+                  method: widget.destinationAddress.method ?? 'manual',
+                  zoneId: widget.destinationAddress.zoneId ?? 0,
+                  zoneIds: widget.destinationAddress.zoneIds ?? [],
+                  id: widget.destinationAddress.id ?? 0,
+                  streetNumber: widget.destinationAddress.streetNumber ?? '',
+                  house: widget.destinationAddress.house ?? '',
+                  floor: widget.destinationAddress.floor ?? '',
+                  email: widget.destinationAddress.email ?? '',
+                  zoneData: widget.destinationAddress.zoneData ?? [],
+                );
+
                 PlaceOrderBodyModel placeOrderBody = PlaceOrderBodyModel(
                   cart: [],
                   couponDiscountAmount: null,
@@ -1158,7 +1113,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                   orderAmount: charge,
                   orderNote: '',
                   orderType: 'parcel',
-                  receiverDetails: widget.destinationAddress,
+                  receiverDetails: receiverDetails,
                   paymentMethod: parcelController.paymentIndex == 0
                       ? 'cash_on_delivery'
                       : parcelController.paymentIndex == 1
@@ -1168,23 +1123,25 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                               : 'offline_payment',
                   couponCode: null,
                   storeId: null,
-                  address: widget.pickedUpAddress.address,
-                  latitude: widget.pickedUpAddress.latitude,
-                  longitude: widget.pickedUpAddress.longitude,
-                  senderZoneId: widget.pickedUpAddress.zoneId,
-                  addressType: widget.pickedUpAddress.addressType,
+                  address: widget.pickedUpAddress.address ?? '',
+                  latitude:
+                      widget.pickedUpAddress.latitude?.toString() ?? '0.0',
+                  longitude:
+                      widget.pickedUpAddress.longitude?.toString() ?? '0.0',
+                  senderZoneId: widget.pickedUpAddress.zoneId ?? 0,
+                  addressType: widget.pickedUpAddress.addressType ?? 'home',
                   contactPersonName:
-                      widget.pickedUpAddress.contactPersonName ?? '',
+                      widget.pickedUpAddress.contactPersonName ?? 'beeb',
                   contactPersonNumber:
-                      widget.pickedUpAddress.contactPersonNumber ?? '',
+                      widget.pickedUpAddress.contactPersonNumber ??
+                          '01222222222',
                   streetNumber: widget.pickedUpAddress.streetNumber ?? '',
                   house: widget.pickedUpAddress.house ?? '',
                   floor: widget.pickedUpAddress.floor ?? '',
                   discountAmount: 0,
                   taxAmount: 0,
                   parcelCategoryId: widget.parcelCategory.id.toString(),
-                  chargePayer:
-                      parcelController.payerTypes[parcelController.payerIndex],
+                  chargePayer: parcelController.payerTypes[0], // Always sender
                   dmTips: parcelController.tips.toString(),
                   cutlery: 0,
                   unavailableItemNote: '',

@@ -197,6 +197,7 @@
   "trip_route": "Trip Route",
   "call": "Call",
   "order_details": "Order Details",
+  "write_order_details": "Write your order details below",
   "rate_and_review": "Rate & Review",
   "rate_the_item": "Rate the Item",
   "rate_the_delivery_man": "Rate the Delivery Man",
@@ -1318,5 +1319,6 @@
   "password_reset_successfully": "Password reset successfully",
   "enter_name": "Enter Name",
   "timed_out_please_try_again_after_few_minutes": "Timed out. Please try again after few minutes",
-  "from_you": "from you"
+  "from_you": "from you",
+  "order_and_wish": "Order and Wish"
 }

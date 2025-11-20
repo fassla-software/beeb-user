@@ -100,7 +100,6 @@ class SplashController extends GetxController implements GetxService {
           loadModuleData: loadModuleData,
           loadLandingData: loadLandingData,
           source: DataSourceEnum.client);
- 
     } else {
       response = await splashServiceInterface.getConfigData(
           source: DataSourceEnum.client);
@@ -119,12 +118,12 @@ class SplashController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _data = response.body;
       _configModel = ConfigModel.fromJson(response.body);
-      if (_configModel!.module != null) {
-        setModule(_configModel!.module);
-      } else if (GetPlatform.isWeb || (loadModuleData && _module != null)) {
-        setModule(
-            GetPlatform.isWeb ? splashServiceInterface.getModule() : _module);
-      }
+      // if (_configModel!.module != null) {
+      //   setModule(_configModel!.module);
+      // } else if (GetPlatform.isWeb || (loadModuleData && _module != null)) {
+      //   setModule(
+      //       GetPlatform.isWeb ? splashServiceInterface.getModule() : _module);
+      // }
       if (loadLandingData) {
         await getLandingPageData();
       }

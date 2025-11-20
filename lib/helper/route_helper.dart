@@ -68,6 +68,7 @@ import 'package:makhsos/features/order/screens/refund_request_screen.dart';
 import 'package:makhsos/features/parcel/screens/parcel_category_screen.dart';
 import 'package:makhsos/features/parcel/screens/parcel_location_screen.dart';
 import 'package:makhsos/features/parcel/screens/parcel_request_screen.dart';
+import 'package:makhsos/features/parcel/screens/parcel_unified_screen.dart';
 import 'package:makhsos/features/profile/screens/profile_screen.dart';
 import 'package:makhsos/features/profile/screens/update_profile_screen.dart';
 import 'package:makhsos/features/store/screens/all_store_screen.dart';
@@ -127,6 +128,7 @@ class RouteHelper {
   static const String parcelCategory = '/parcel-category';
   static const String parcelLocation = '/parcel-location';
   static const String parcelRequest = '/parcel-request';
+  static const String parcelUnified = '/parcel-unified';
   static const String searchStoreItem = '/search-store-item';
   static const String order = '/order';
   static const String itemDetails = '/item-details';
@@ -315,6 +317,11 @@ class RouteHelper {
     String destinationAddress0 =
         base64Url.encode(utf8.encode(jsonEncode(destinationAddress.toJson())));
     return '$parcelRequest?category=$category0&picked=$pickedUpAddress&destination=$destinationAddress0';
+  }
+
+  static String getParcelUnifiedRoute(ParcelCategoryModel category) {
+    String data = base64Url.encode(utf8.encode(jsonEncode(category.toJson())));
+    return '$parcelUnified?data=$data';
   }
 
   static String getSearchStoreItemRoute(int? storeID) =>
@@ -808,6 +815,13 @@ class RouteHelper {
               destinationAddress: AddressModel.fromJson(jsonDecode(utf8.decode(
                   base64Url.decode(
                       Get.parameters['destination']!.replaceAll(' ', '+'))))),
+            ))),
+    GetPage(
+        name: parcelUnified,
+        page: () => getRoute(ParcelUnifiedScreen(
+              parcelCategory: ParcelCategoryModel.fromJson(jsonDecode(
+                  utf8.decode(base64Url
+                      .decode(Get.parameters['data']!.replaceAll(' ', '+'))))),
             ))),
     GetPage(
         name: searchStoreItem,
