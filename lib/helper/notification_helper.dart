@@ -154,9 +154,10 @@ class NotificationHelper {
         NotificationHelper.showNotification(
             message, flutterLocalNotificationsPlugin);
         if (AuthHelper.isLoggedIn()) {
-          Get.find<OrderController>().getRunningOrders(1);
-          Get.find<OrderController>().getHistoryOrders(1);
-          Get.find<NotificationController>().getNotificationList(true);
+          Get.find<OrderController>().getRunningOrders(1, handleError: false);
+          Get.find<OrderController>().getHistoryOrders(1, handleError: false);
+          Get.find<NotificationController>()
+              .getNotificationList(true, handleError: false);
         }
       }
 

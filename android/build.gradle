@@ -1,16 +1,14 @@
 allprojects {
-<<<<<<< HEAD
+
 
 
         ext.kotlin_version = '2.1.0'
 
-=======
->>>>>>> ffe1df2 (before marsol update)
-    repositories {
+  repositories {
         google()
         mavenCentral()
     }
-<<<<<<< HEAD
+
 
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
@@ -23,8 +21,6 @@ allprojects {
             }
         }
     }
-=======
->>>>>>> ffe1df2 (before marsol update)
 }
 
 rootProject.buildDir = '../build'

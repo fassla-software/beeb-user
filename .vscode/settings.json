@@ -1,7 +1,8 @@
 {
-    "flutterTools.displayGetxContextMenu": true,
-    "flutterTools.displayMobxContextMenu": false,
-    "flutterTools.displayRiverpodContextMenu": false,
-    "flutterTools.displayModularContextMenu": false,
-    "java.configuration.updateBuildConfiguration": "automatic"
+  "flutterTools.displayGetxContextMenu": true,
+  "flutterTools.displayMobxContextMenu": false,
+  "flutterTools.displayRiverpodContextMenu": false,
+  "flutterTools.displayModularContextMenu": false,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "dart.flutterSdkPath": ".fvm/versions/3.29.3"
 }

@@ -121,15 +121,17 @@ class OrderController extends GetxController implements GetxService {
   }
 
   Future<void> getRunningOrders(int offset,
-      {bool isUpdate = false, bool fromDashboard = false}) async {
+      {bool isUpdate = false,
+      bool fromDashboard = false,
+      bool handleError = true}) async {
     if (offset == 1) {
       _runningOrderModel = null;
       if (isUpdate) {
         update();
       }
     }
-    PaginatedOrderModel? orderModel =
-        await orderServiceInterface.getRunningOrderList(offset, fromDashboard);
+    PaginatedOrderModel? orderModel = await orderServiceInterface
+        .getRunningOrderList(offset, fromDashboard, handleError: handleError);
     if (orderModel != null) {
       if (offset == 1) {
         _runningOrderModel = orderModel;
@@ -142,15 +144,16 @@ class OrderController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> getHistoryOrders(int offset, {bool isUpdate = false}) async {
+  Future<void> getHistoryOrders(int offset,
+      {bool isUpdate = false, bool handleError = true}) async {
     if (offset == 1) {
       _historyOrderModel = null;
       if (isUpdate) {
         update();
       }
     }
-    PaginatedOrderModel? orderModel =
-        await orderServiceInterface.getHistoryOrderList(offset);
+    PaginatedOrderModel? orderModel = await orderServiceInterface
+        .getHistoryOrderList(offset, handleError: handleError);
     if (orderModel != null) {
       if (offset == 1) {
         _historyOrderModel = orderModel;

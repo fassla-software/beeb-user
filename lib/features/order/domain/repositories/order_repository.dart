@@ -97,11 +97,12 @@ class OrderRepository implements OrderRepositoryInterface {
       bool isCancelReasons = false,
       bool isRefundReasons = false,
       bool fromDashboard = false,
-      bool isSupportReasons = false}) async {
+      bool isSupportReasons = false,
+      bool handleError = true}) async {
     if (isRunningOrder) {
-      return await _getRunningOrderList(offset!, fromDashboard);
+      return await _getRunningOrderList(offset!, fromDashboard, handleError);
     } else if (isHistoryOrder) {
-      return await _getHistoryOrderList(offset!);
+      return await _getHistoryOrderList(offset!, handleError);
     } else if (isCancelReasons) {
       return await _getCancelReasons();
     } else if (isRefundReasons) {
@@ -112,20 +113,23 @@ class OrderRepository implements OrderRepositoryInterface {
   }
 
   Future<PaginatedOrderModel?> _getRunningOrderList(
-      int offset, bool fromDashboard) async {
+      int offset, bool fromDashboard, bool handleError) async {
     PaginatedOrderModel? runningOrderModel;
     Response response = await apiClient.getData(
-        '${AppConstants.runningOrderListUri}?offset=$offset&limit=${fromDashboard ? 50 : 10}');
+        '${AppConstants.runningOrderListUri}?offset=$offset&limit=${fromDashboard ? 50 : 10}',
+        handleError: handleError);
     if (response.statusCode == 200) {
       runningOrderModel = PaginatedOrderModel.fromJson(response.body);
     }
     return runningOrderModel;
   }
 
-  Future<PaginatedOrderModel?> _getHistoryOrderList(int offset) async {
+  Future<PaginatedOrderModel?> _getHistoryOrderList(
+      int offset, bool handleError) async {
     PaginatedOrderModel? historyOrderModel;
-    Response response = await apiClient
-        .getData('${AppConstants.historyOrderListUri}?offset=$offset&limit=10');
+    Response response = await apiClient.getData(
+        '${AppConstants.historyOrderListUri}?offset=$offset&limit=10',
+        handleError: handleError);
     if (response.statusCode == 200) {
       historyOrderModel = PaginatedOrderModel.fromJson(response.body);
     }

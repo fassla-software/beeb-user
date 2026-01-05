@@ -17,15 +17,20 @@ class OrderService implements OrderServiceInterface {
 
   @override
   Future<PaginatedOrderModel?> getRunningOrderList(
-      int offset, bool fromDashboard) async {
+      int offset, bool fromDashboard,
+      {bool handleError = true}) async {
     return await orderRepositoryInterface.getList(
-        isRunningOrder: true, offset: offset, fromDashboard: fromDashboard);
+        isRunningOrder: true,
+        offset: offset,
+        fromDashboard: fromDashboard,
+        handleError: handleError);
   }
 
   @override
-  Future<PaginatedOrderModel?> getHistoryOrderList(int offset) async {
+  Future<PaginatedOrderModel?> getHistoryOrderList(int offset,
+      {bool handleError = true}) async {
     return await orderRepositoryInterface.getList(
-        isHistoryOrder: true, offset: offset);
+        isHistoryOrder: true, offset: offset, handleError: handleError);
   }
 
   @override

@@ -13,7 +13,8 @@ abstract class OrderRepositoryInterface extends RepositoryInterface {
       bool isCancelReasons = false,
       bool isRefundReasons = false,
       bool fromDashboard,
-      bool isSupportReasons = false});
+      bool isSupportReasons = false,
+      bool handleError = true});
   Future<Response> submitRefundRequest(Map<String, String> body, XFile? data);
   Future<Response> trackOrder(String? orderID, String? guestId,
       {String? contactNumber});

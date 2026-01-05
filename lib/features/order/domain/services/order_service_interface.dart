@@ -6,8 +6,10 @@ import 'package:makhsos/features/order/domain/models/order_model.dart';
 
 abstract class OrderServiceInterface {
   Future<PaginatedOrderModel?> getRunningOrderList(
-      int offset, bool fromDashboard);
-  Future<PaginatedOrderModel?> getHistoryOrderList(int offset);
+      int offset, bool fromDashboard,
+      {bool handleError = true});
+  Future<PaginatedOrderModel?> getHistoryOrderList(int offset,
+      {bool handleError = true});
   Future<List<String?>?> getSupportReasonsList();
   Future<List<OrderDetailsModel>?> getOrderDetails(
       String orderID, String? guestId);

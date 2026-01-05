@@ -13,9 +13,11 @@ class NotificationRepository implements NotificationRepositoryInterface {
       {required this.apiClient, required this.sharedPreferences});
 
   @override
-  Future<List<NotificationModel>?> getList({int? offset}) async {
+  Future<List<NotificationModel>?> getList(
+      {int? offset, bool handleError = true}) async {
     List<NotificationModel>? notificationList;
-    Response response = await apiClient.getData(AppConstants.notificationUri);
+    Response response = await apiClient.getData(AppConstants.notificationUri,
+        handleError: handleError);
     if (response.statusCode == 200) {
       notificationList = [];
       response.body.forEach((notification) =>

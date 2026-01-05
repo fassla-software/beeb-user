@@ -7,8 +7,10 @@ class NotificationService implements NotificationServiceInterface {
   NotificationService({required this.notificationRepositoryInterface});
 
   @override
-  Future<List<NotificationModel>?> getNotificationList() async {
-    return await notificationRepositoryInterface.getList();
+  Future<List<NotificationModel>?> getNotificationList(
+      {bool handleError = true}) async {
+    return await notificationRepositoryInterface.getList(
+        handleError: handleError);
   }
 
   @override
